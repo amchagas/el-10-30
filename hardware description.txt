@@ -1,0 +1,71 @@
+Electrically tuned lenses (ETLs) are a good way of adding fast "z-movement" 
+to microscopes, as no motors need to be used to move the entire lens set. 
+From the Helmchen 2011 paper, they more or less double their scanning speed, 
+from ~10Hz to ~20-30Hz.
+
+The system works in the following manner: An ETL is placed right behind 
+the microscope objective and is controlled by an laser diode or 
+precise LED driver, where voltage is kept constant at 5V
+and changes in current (0-300mA), change the conformation of the lens
+and therefore its focal distance.
+
+Due to aberrations introduced by this new lens in the system,
+an offset lens has to be used together with the ETL.
+This specific one, already comes with one, 
+that can be replaced case necessary (check pdf files for instructions).
+
+The driver chosen to drive the lens is one recommended by the manufacturer.
+ From thorlabs, model LD1255R 
+(laser diode constant current driver - 0.2 to 250 mA - manual attached).
+
+The driver can be controlled with an analog signal between 0 and 5V,
+so the original plan is to use an Arduino to control it. 
+But the Arduino AO is not real analog, but rather PWM,
+so we might have to build a low-pass filter (capacitor + resistor)
+to smooth the signal. Also the AO only has 8-bit precision,
+which would give us 20mA steps, and the original driver of the lens manufacturer
+has 0.1mA steps. It might be interesting to use a Teensy 3.2 instead, 
+since it has a true analog output and 12-bit precision, 
+giving us ~1.22 mA steps. Also the board cost about the same as an Arduino.
+
+The lens also has a temperature sensor built in, as it can get quite hot if used
+for longer periods, leading to temperature drifts in the lens shape, changing
+the focal distance. The idea is to hook the temperature sensor to the
+microcontroller and write code to display it. We might also consider using
+a heat sink on the lens, to diminish the temperature changing problem.
+
+
+Driver hookup:
+-The driver has a jumper to select (J2 pins, check below)
+in between manual current control and
+external current control (remote control with micro-controller).
+
+PINS on J1:
+
+1- power to board
+2- ground
+3- power to laser
+4- external current control (0 to 5V) 
+5- disable pin. They suggest that the board should always be disabled upon 
+turning it on, and only them enabling the board (one can either have a
+mechanical switch or have it controlled by the micro-controller).
+6- laser anode (internally connected to ground)
+7- laser cathode
+8- monitor photodiode anode
+9- Photodiode monitor output
+10- Laser current monitor output
+
+
+PINS on J2 (jumpers to control manual or remote current control):
+If jumper in pins 1 and 2 - External current control (common referenced)
+In Mode 1, the laser current is: ILD= 50 * VPIN4 (mA)
+If jumper in pins 2 and 3 - External current control DISABLED
+
+Warning: Do not operate the LD1255 without a laser diode connected because the
+protection diodes can be damaged and cause the driver to fail.
+
+The LD1255 photodiode monitor circuit only supports laser that have a photodiode
+with an isolated anode. It will not support common cathode lasers such as the
+CQL7825/D and CQL7840/D.
+
+
