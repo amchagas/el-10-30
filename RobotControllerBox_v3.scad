@@ -7,13 +7,13 @@ boxZ = 30;
 
 pcbScrewDiam=5.9;
 pcbScrewHole=3;
-pcbScrewZ = 10;
+pcbScrewZ = 12;
 
 rackX=20;
 rackScrewDiam=7;
 rackScrewDist=17;
 
-cableDiam = 14;
+cableDiam = 16;
 bncDiam = 10;
 
 ledDiam = 3;
@@ -133,10 +133,10 @@ difference(){
 box();
     translate([-boxX/4,-2*boxY/5,0]){
         baseHoles();}//end translate
-    translate([(wallDiam/2)+(boxX/2),25,0]){
+    translate([(wallDiam/2)+(boxX/2),(boxY/2)-(cableDiam/2)-(2.5*cableDiam),0]){
         cableHole();}
-    translate([(boxX/2-cableDiam/2-wallDiam/2),boxY/2,0]){
-        rotate([0,0,90]){
+    translate([(wallDiam/2)+(boxX/2),boxY/2-cableDiam/2-wallDiam,0]){
+        rotate([0,0,00]){
         cableHole();}}
     translate([-(3*bncDiam),-boxX/1.09,-7]){
     frontHoles();}
@@ -150,6 +150,7 @@ translate([-boxX/2-rackX/2-wallDiam,-boxY/2,0]){
 translate([8,(-boxY/2)+26,-boxZ/3.3]){
 robotShield();}
 
-translate([(-boxX/2)+3.5,(boxY/3)-1,-boxZ/3.3]){
+rotate([0,0,90]){
+translate([(-boxX/4)+31.5,(boxY/10)+1,-boxZ/3.3]){
 lensDriver();}
-
+}
