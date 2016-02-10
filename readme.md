@@ -1,5 +1,5 @@
-"This is the repository for the implementation of the electrically tunable lens 
-EL-10-30, from Optotune."
+This is the repository for the implementation of the electrically tunable lens 
+EL-10-30, from Optotune.
 
 Each should be controlled as follows:
 
@@ -17,6 +17,22 @@ custom serial libraries present here: https://github.com/eulerlab/SREEB,
 but in principle standard I2C libraries can be used.
 
 
+a couple of notes while using the driver provided by optotune:
+It is a bit hard to get the lens to heat up under the conditions we are planning
+to use. 
+I ran the lens for several minutes using a sinusoidal waveform @500Hz and with 
+small and big amplitudes (from 40mA to 280mA and 180mA to 280mA). The system heated
+up to 37°C. According to the user's manual the lens is capable of supporting
+much higher temps. In any case, one needs to compensate for the change in temp,
+as it affects the focal length of the lens, given a certain current. Read the lens
+manual for a better description.
+
+Running the lens @ constant DC current (280mA) also affects the temperature mildly,
+again ~37°C were reached.
+
+I'm guessing that if we are able to put some heatsinks around the lens, we should be 
+able to keep the temp. from rising and avoid having to deal with changes in focal
+length all together.
 
 
 
